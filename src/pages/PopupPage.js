@@ -84,8 +84,10 @@ export default function PopupPage({ opener }) {
           channel: 'sollet_extension_background_channel',
           data: message,
         });
-      } else {
+      } else if (opener) {
         opener.postMessage({ jsonrpc: '2.0', ...message }, origin);
+      } else {
+        throw new Error('No opener nor extension.');
       }
     },
     [opener, origin],
